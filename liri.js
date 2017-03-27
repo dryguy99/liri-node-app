@@ -1,20 +1,20 @@
-const twitK = require('./keys');
-
 var twit = require('twitter');
 
-const inquirer = require("inquirer");
+const twitK = require('./keys'),
 
-const fs = require('fs');
+	inquirer = require("inquirer"),
 
-const spotify = require('spotify');
+	fs = require('fs'),
 
-const request = require('request');
+	spotify = require('spotify'),
 
-var until = require('until');
+	request = require('request');
 
-var initInput = process.argv[2];
+var twitter = new twit(twitK);
 
-var initRequest;
+var until = require('until'),
+	initInput = process.argv[2],
+	initRequest;
 
 if (process.argv.length >= 4) {
 	initRequest = process.argv[3];
@@ -72,6 +72,11 @@ switch (initInput) {
 //--------------------------------------------------------------
 //function to handle twitter
 function myTweets() {
+twitter.stream('filter', {track: 'love'}, function(stream){
+	stream.on('data', function(){
+		console.log(until.inspect(data));
+	});
+});
 
 }
 //--------------------------------------------------------------
