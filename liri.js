@@ -91,15 +91,7 @@ function myTweets() {
   		} else { 
   			console.log(error);
   		}
-});
-// twitter.stream('filter', {track: 'love'}, function(stream){
-// 	stream.on('data', function(){
-// 		console.log(until.inspect(data));
-// 		stream.destroy();
-// 		process.exit(0);
-// 	});
-// });
-
+	});
 }
 //--------------------------------------------------------------
 //function to handle spotify
@@ -117,16 +109,7 @@ function dowhatitSays() {
 
 }
 //--------------------------------------------------------------
-// twitter login information
-// inquirer.prompt([
-// 	{
-// 		type: "input",
-// 		message: "What would you like to do?"
-// 		choices: ["My Tweets", "Spotify This Song", "Movie"]
-// 	}
-// ]);
 
-// // questions for twitter login
 // inquirer.prompt([
 
 //   {
