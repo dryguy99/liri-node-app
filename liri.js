@@ -1,4 +1,6 @@
-const twitter = require('./keys');
+const twitK = require('./keys');
+
+var twit = require('twitter');
 
 const inquirer = require("inquirer");
 
@@ -6,9 +8,18 @@ const fs = require('fs');
 
 const spotify = require('spotify');
 
-const request = require*('request');
+const request = require('request');
+
+var until = require('until');
 
 var initInput = process.argv[2];
+
+var initRequest;
+
+if (process.argv.length >= 4) {
+	initRequest = process.argv[3];
+	console.log("initial request: " + initRequest);
+}
 
 switch (initInput) {
 	case "my-tweets": 
@@ -30,16 +41,16 @@ switch (initInput) {
 		console.log("Please use the following commands:");
 		console.log("");
 		console.log("my-tweets");
-		console.log("my-tweets : will print your last 20 tweets");
+		console.log(" > my-tweets : will print your last 20 tweets");
 		console.log("");
 		console.log("spotify-this-song '<song name here>'");
-		console.log("spotify-this-song : will list the artist, song name, album & a spotify preview link");
+		console.log(" > spotify-this-song : will list the artist, song name, album & a spotify preview link");
 		console.log("");
 		console.log("movie-this '<movie name here>'");
-		console.log("movie-this : will list the title, year, IMDB rating & other movie stats");
+		console.log(" > movie-this : will list the title, year, IMDB rating & other movie stats");
 		console.log("");
 		console.log("do-what-it-says");
-		console.log("do-what-it-says : will run a random command");
+		console.log(" > do-what-it-says : will run a random command");
 		console.log("");
 		console.log("===================================");
 		console.log("");
@@ -58,6 +69,27 @@ switch (initInput) {
 		console.log("===================================");
 		console.log("");
 }
+//--------------------------------------------------------------
+//function to handle twitter
+function myTweets() {
+
+}
+//--------------------------------------------------------------
+//function to handle spotify
+function mySpotify() {
+
+}
+//--------------------------------------------------------------
+// function to handle omdb
+function myOmdb () {
+
+}
+//--------------------------------------------------------------
+// function to handle do what it says
+function dowhatitSays() {
+
+}
+//--------------------------------------------------------------
 // twitter login information
 // inquirer.prompt([
 // 	{
