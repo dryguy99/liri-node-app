@@ -28,13 +28,16 @@ if (process.argv.length >= 4) {
 	myRequest = process.argv[3];
 	//console.log("initial request: " + myRequest);
 }
+//--------------------------------------------------------------
+//write log.txt file
 function myAppend(temp) {
 	fs.appendFile("log.txt", temp, (err) => {
 	  	if (err) throw err;
 	  	//console.log('The "data to append" was appended to file!');
 	});
 }
-
+//--------------------------------------------------------------
+// check which function to run and excute it
 function checkInput(){
 	tempInfo = initInput + ": ";
 	myAppend(tempInfo);
