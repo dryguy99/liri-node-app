@@ -83,6 +83,7 @@ checkInput();
 //--------------------------------------------------------------
 //function to handle twitter
 function myTweets() {
+	var tempInfo = "";
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
   		if (!error) {
   			//console.log(tweets);
@@ -92,17 +93,22 @@ function myTweets() {
   				console.log("Created: " + tweets[i].created_at);
     			console.log("Tweet " + (i+1) + " : " + tweets[i].text);
     			console.log("");
-    			console.log("==========================================");
     			console.log("");
+    			tempInfo = tempInfo + "Created: " + tweets[i].created_at + ", Tweet" + (i+1) + ": " + tweets[i].text + "~ ";
     		}
   		} else { 
   			console.log(error);
   		}
+	  	fs.appendFile("log.txt", tempInfo, (err) => {
+	  		if (err) throw err;
+	  		//console.log('The "data to append" was appended to file!');
+		});
 	});
 }
 //--------------------------------------------------------------
 //function to handle spotify
 function mySpotify() {
+	var tempInfo = "";
 	if (myRequest === "") { myRequest = "The Sign Ace of Base"; }
 	spotify.search({ type: 'track', query: myRequest }, function(err, data) {
     	if ( err ) {
@@ -118,12 +124,21 @@ function mySpotify() {
     		console.log("");
     		console.log("==========================================");
 			console.log("");
+			tempInfo = 	"Artist: " + data.tracks.items[0].album.artists[0].name +
+						" Song Title: " + data.tracks.items[0].name +
+						" Preview Link: " + data.tracks.items[0].preview_url +
+						" Album name: " + data.tracks.items[0].album.name + "~ ";
     	}
+    	fs.appendFile("log.txt", tempInfo, (err) => {
+	  		if (err) throw err;
+	  		//console.log('The "data to append" was appended to file!');
+		});
 	});
 }
 //--------------------------------------------------------------
 // function to handle omdb
 function myOmdb () {
+	var tempInfo = "";
 	if (myRequest === "") { myRequest = "Mr Nobody"; }
 	var myArray = myRequest.split(" ");
 	var mycomRequest = "";
@@ -167,7 +182,21 @@ function myOmdb () {
 	  		console.log("   Rotten Tomatoes URL: https://www.rottentomatoes.com/m/" + myrotRequest);
 	  		console.log("");
 	  		console.log("==========================================");
+	  		tempInfo = 	"Movie title: " + JSON.parse(body).Title +
+	  					" Year: " + JSON.parse(body).Year +
+	  					" IMDB Rating: " + JSON.parse(body).imdbRating +
+	  					" Country: " + JSON.parse(body).Country +
+	  					" Language: " + JSON.parse(body).Language +
+	  					" Plot: " + JSON.parse(body).Plot +
+	  					" Actors: " + JSON.parse(body).Actors +
+	  					" Website: " + JSON.parse(body).Website +
+	  					" Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value +
+	  					" Rotten Tomatoes URL: https://www.rottentomatoes.com/m/" + myrotRequest + "~ ";
   		}
+  		fs.appendFile("log.txt", tempInfo, (err) => {
+	  		if (err) throw err;
+	  		//console.log('The "data to append" was appended to file!');
+		});
 	});
 }
 //--------------------------------------------------------------
