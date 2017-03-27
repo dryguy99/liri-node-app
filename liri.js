@@ -22,61 +22,64 @@ const inquirer = require("inquirer"),
 
 var until = require('until'),
 	initInput = process.argv[2],
-	initRequest;
+	myRequest = "";
 
 if (process.argv.length >= 4) {
-	initRequest = process.argv[3];
-	console.log("initial request: " + initRequest);
+	myRequest = process.argv[3];
+	//console.log("initial request: " + myRequest);
 }
 
-switch (initInput) {
-	case "my-tweets": 
-		myTweets();
-		break;
-	case "spotify-this-song":
-		mySpotify();
-		break;
-	case "movie-this":
-		myOmdb();
-		break;
-	case "do-what-it-says":
-		dowhatitSays();
-		break;
-	case "help":
-		console.log("");
-		console.log("===================================");
-		console.log("");
-		console.log("Please use the following commands:");
-		console.log("");
-		console.log("my-tweets");
-		console.log(" > my-tweets : will print your last 20 tweets");
-		console.log("");
-		console.log("spotify-this-song '<song name here>'");
-		console.log(" > spotify-this-song : will list the artist, song name, album & a spotify preview link");
-		console.log("");
-		console.log("movie-this '<movie name here>'");
-		console.log(" > movie-this : will list the title, year, IMDB rating & other movie stats");
-		console.log("");
-		console.log("do-what-it-says");
-		console.log(" > do-what-it-says : will run a random command");
-		console.log("");
-		console.log("===================================");
-		console.log("");
-		break;
-	default:
-		console.log("");
-		console.log("===================================");
-		console.log("Please use the following commands:");
-		console.log("");
-		console.log("my-tweets");
-		console.log("spotify-this-song");
-		console.log("movie-this");
-		console.log("do-what-it-says");
-		console.log("help");
-		console.log("");
-		console.log("===================================");
-		console.log("");
+function checkInput(){
+	switch (initInput) {
+		case "my-tweets": 
+			myTweets();
+			break;
+		case "spotify-this-song":
+			mySpotify();
+			break;
+		case "movie-this":
+			myOmdb();
+			break;
+		case "do-what-it-says":
+			dowhatitSays();
+			break;
+		case "help":
+			console.log("");
+			console.log("===================================");
+			console.log("");
+			console.log("Please use the following commands:");
+			console.log("");
+			console.log("my-tweets");
+			console.log(" > my-tweets : will print your last 20 tweets");
+			console.log("");
+			console.log("spotify-this-song '<song name here>'");
+			console.log(" > spotify-this-song : will list the artist, song name, album & a spotify preview link");
+			console.log("");
+			console.log("movie-this '<movie name here>'");
+			console.log(" > movie-this : will list the title, year, IMDB rating & other movie stats");
+			console.log("");
+			console.log("do-what-it-says");
+			console.log(" > do-what-it-says : will run a random command");
+			console.log("");
+			console.log("===================================");
+			console.log("");
+			break;
+		default:
+			console.log("");
+			console.log("===================================");
+			console.log("Please use the following commands:");
+			console.log("");
+			console.log("my-tweets");
+			console.log("spotify-this-song");
+			console.log("movie-this");
+			console.log("do-what-it-says");
+			console.log("help");
+			console.log("");
+			console.log("===================================");
+			console.log("");
+	}
 }
+checkInput();
 //--------------------------------------------------------------
 //function to handle twitter
 function myTweets() {
@@ -84,8 +87,12 @@ function myTweets() {
   		if (!error) {
   			//console.log(tweets);
   			for (i = 0; i < tweets.length; i++) {
+  				console.log("==========================================");
+  				console.log("");
   				console.log("Created: " + tweets[i].created_at);
     			console.log("Tweet " + (i+1) + " : " + tweets[i].text);
+    			console.log("");
+    			console.log("==========================================");
     			console.log("");
     		}
   		} else { 
@@ -96,81 +103,83 @@ function myTweets() {
 //--------------------------------------------------------------
 //function to handle spotify
 function mySpotify() {
-
+	if (myRequest === "") { myRequest = "The Sign Ace of Base"; }
+	spotify.search({ type: 'track', query: myRequest }, function(err, data) {
+    	if ( err ) {
+        	console.log('Error occurred: ' + err);
+        	return;
+    	} else {
+    		console.log("==========================================");
+  			console.log("");
+    		console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+    		console.log("Song Title: " + data.tracks.items[0].name);
+    		console.log("Preview Link: " + data.tracks.items[0].preview_url);
+    		console.log("Album name: " + data.tracks.items[0].album.name);
+    		console.log("");
+    		console.log("==========================================");
+			console.log("");
+    	}
+	});
 }
 //--------------------------------------------------------------
 // function to handle omdb
 function myOmdb () {
+	if (myRequest === "") { myRequest = "Mr Nobody"; }
+	var myArray = myRequest.split(" ");
+	var mycomRequest = "";
+	var myrotRequest = myArray[0];
+	for (i = 0; i < myArray.length-1; i++) {
+		mycomRequest = mycomRequest + myArray[i] + "+";
+	}
+	mycomRequest = mycomRequest + myArray[myArray.length-1];
+	if (myArray[0] == "the") {
+		myrotRequest = "";
+		for (i = 1; i < myArray.length-1; i++) {
+			myrotRequest = myrotRequest + myArray[i] + "_";
+		} 
+		myrotRequest = myrotRequest + myArray[myArray.length-1];
+	}else {
+		myrotRequest = "";
+		for (i = 0; i < myArray.length-1; i++) {
+			myrotRequest = myrotRequest + myArray[i] + "_";
+		}
+		myrotRequest = myrotRequest + myArray[myArray.length-1];
+	}
+	
+	request("https://www.omdbapi.com/?t=" + mycomRequest + "&plot=short&r=json", function (error, response, body) {
+		//var omdb = JSON.stringify(body);
+  		if (error) {
+  			console.log('error:', error);// Print the error if one occurred 
 
+  		} else {
+	  		console.log("==========================================");
+  			console.log("");
+  			console.log("Movie title: " + JSON.parse(body).Title);
+	  		console.log("       Year: " + JSON.parse(body).Year); // Print the movie title. 
+	  		console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+	  		console.log("    Country: " + JSON.parse(body).Country);
+	  		console.log("   Language: " + JSON.parse(body).Language);
+	  		console.log("       Plot: " + JSON.parse(body).Plot);
+	  		console.log("     Actors: " + JSON.parse(body).Actors);
+	  		console.log("    Website: " + JSON.parse(body).Website);
+	  		console.log("");
+	  		console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+	  		console.log("   Rotten Tomatoes URL: https://www.rottentomatoes.com/m/" + myrotRequest);
+	  		console.log("");
+	  		console.log("==========================================");
+  		}
+	});
 }
 //--------------------------------------------------------------
 // function to handle do what it says
 function dowhatitSays() {
-
+	var myArr = [];
+	fs.readFile('random.txt', 'utf8', (err, data) => {
+  		if (err) throw err;
+  		//console.log(data);
+  		myArr = data.split(",");
+  		initInput = myArr[0];
+  		myRequest = myArr[1];
+  		checkInput();
+	});
 }
-//--------------------------------------------------------------
-
-// inquirer.prompt([
-
-//   {
-//     type: "input",
-//     message: "What is your name?",
-//     name: "name"
-//   },
-
-//   // Here we create a basic password-protected text prompt.
-//   {
-//     type: "password",
-//     message: "Set your password",
-//     name: "password"
-//   },
-
-//   // Here we give the user a list to choose from.
-//   {
-//     type: "list",
-//     message: "Which Pokemon do you choose?",
-//     choices: ["Bulbasaur", "Squirtle", "Charmander"],
-//     name: "pokemon"
-//   },
-
-//   // Here we ask the user to confirm.
-//   {
-//     type: "confirm",
-//     message: "Are you sure:",
-//     name: "confirm",
-//     default: true
-
-//   }
-
-// // Once we are done with all the questions... "then" we do stuff with the answers
-// // In this case, we store all of the answers into a "user" object that inquirer makes for us.
-// ]).then(function(user) {
-
-
-//   // If we log that user as a JSON, we can see how it looks.
-//   console.log(JSON.stringify(user, null, 2));
-
-//   // If the user confirms, we displays the user's name and pokemon from the answers.
-//   if (user.confirm) {
-
-//     console.log("==============================================");
-//     console.log("");
-//     console.log("Welcome " + user.name);
-//     console.log("Your " + user.pokemon + " is ready for battle!");
-//     console.log("");
-//     console.log("==============================================");
-
-//   // If the user does not confirm, then a message is provided and the program quits.
-//   }
-
-//   else {
-
-//     console.log("");
-//     console.log("");
-//     console.log("That's okay " + user.name + ", come again when you are more sure.");
-//     console.log("");
-//     console.log("");
-
-//   }
-
-// });
