@@ -28,8 +28,17 @@ if (process.argv.length >= 4) {
 	myRequest = process.argv[3];
 	//console.log("initial request: " + myRequest);
 }
+function myAppend(temp) {
+	fs.appendFile("log.txt", temp, (err) => {
+	  	if (err) throw err;
+	  	//console.log('The "data to append" was appended to file!');
+	});
+}
 
 function checkInput(){
+	tempInfo = initInput + ": ";
+	myAppend(tempInfo);
+	tempinfo = "";
 	switch (initInput) {
 		case "my-tweets": 
 			myTweets();
@@ -99,10 +108,7 @@ function myTweets() {
   		} else { 
   			console.log(error);
   		}
-	  	fs.appendFile("log.txt", tempInfo, (err) => {
-	  		if (err) throw err;
-	  		//console.log('The "data to append" was appended to file!');
-		});
+	  	myAppend(tempInfo);
 	});
 }
 //--------------------------------------------------------------
@@ -129,10 +135,7 @@ function mySpotify() {
 						" Preview Link: " + data.tracks.items[0].preview_url +
 						" Album name: " + data.tracks.items[0].album.name + "~ ";
     	}
-    	fs.appendFile("log.txt", tempInfo, (err) => {
-	  		if (err) throw err;
-	  		//console.log('The "data to append" was appended to file!');
-		});
+    	myAppend(tempInfo);
 	});
 }
 //--------------------------------------------------------------
@@ -193,10 +196,7 @@ function myOmdb () {
 	  					" Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value +
 	  					" Rotten Tomatoes URL: https://www.rottentomatoes.com/m/" + myrotRequest + "~ ";
   		}
-  		fs.appendFile("log.txt", tempInfo, (err) => {
-	  		if (err) throw err;
-	  		//console.log('The "data to append" was appended to file!');
-		});
+  		myAppend(tempInfo);
 	});
 }
 //--------------------------------------------------------------
