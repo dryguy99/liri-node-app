@@ -1,16 +1,24 @@
+var twitk = require('./keys');
 var twit = require('twitter');
 
-const twitK = require('./keys'),
 
-	inquirer = require("inquirer"),
+var client = new twit({
+  consumer_key: 'P9VJUrjCSerhJNPMkAfv32qHF',
+  consumer_secret: 'rAKe7B1DVyy8pRcYHhKjVjkaygIvVUSNjNqHKxtk6oBHNWyRZa',
+  access_token_key: '123660259-iUxP5MO4NJvIbTzt7XURwU9JVhx9X9IvKYDh4Adz',
+  access_token_secret: 'Ohx0HPpm384Bnvx5b7hwtlzu0gduPaIX3DPc1K1LNPYms'
+});
+
+
+var params = {screen_name: '@tjdry', count:20};
+
+const inquirer = require("inquirer"),
 
 	fs = require('fs'),
 
 	spotify = require('spotify'),
 
 	request = require('request');
-
-var twitter = new twit(twitK);
 
 var until = require('until'),
 	initInput = process.argv[2],
@@ -72,11 +80,25 @@ switch (initInput) {
 //--------------------------------------------------------------
 //function to handle twitter
 function myTweets() {
-twitter.stream('filter', {track: 'love'}, function(stream){
-	stream.on('data', function(){
-		console.log(until.inspect(data));
-	});
+	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+  		if (!error) {
+  			//console.log(tweets);
+  			for (i = 0; i < tweets.length; i++) {
+  				console.log("Created: " + tweets[i].created_at);
+    			console.log("Tweet " + (i+1) + " : " + tweets[i].text);
+    			console.log("");
+    		}
+  		} else { 
+  			console.log(error);
+  		}
 });
+// twitter.stream('filter', {track: 'love'}, function(stream){
+// 	stream.on('data', function(){
+// 		console.log(until.inspect(data));
+// 		stream.destroy();
+// 		process.exit(0);
+// 	});
+// });
 
 }
 //--------------------------------------------------------------
