@@ -1,12 +1,11 @@
 var twitk = require('./keys');
 var twit = require('twitter');
 
-
 var client = new twit({
-  consumer_key: 'P9VJUrjCSerhJNPMkAfv32qHF',
-  consumer_secret: 'rAKe7B1DVyy8pRcYHhKjVjkaygIvVUSNjNqHKxtk6oBHNWyRZa',
-  access_token_key: '123660259-iUxP5MO4NJvIbTzt7XURwU9JVhx9X9IvKYDh4Adz',
-  access_token_secret: 'Ohx0HPpm384Bnvx5b7hwtlzu0gduPaIX3DPc1K1LNPYms'
+  consumer_key: twitk.twitterKeys.consumer_key,
+  consumer_secret: twitk.twitterKeys.consumer_secret,
+  access_token_key: twitk.twitterKeys.access_token_key,
+  access_token_secret: twitk.twitterKeys.access_token_secret
 });
 
 
