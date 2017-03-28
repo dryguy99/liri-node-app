@@ -46,8 +46,7 @@ Movie titles with more than one word must be delimited by quotations.  Requests 
 
 	node liri movie-this "movie title here"
 
-do-what-it-says opens the random.txt file and tries to execute the text stored there.  This feature was put in for testing and will only execute the first command it encounters. The random.txt file needs to have 2 items seperated by a comma; one of the 4 functions and if necessary, a search parameter. 
-(Although it will also execute the command help)
+do-what-it-says opens the random.txt file and tries to execute the text stored there.  This feature was put in for testing and will only execute the first command it encounters. The random.txt file needs to have 2 items seperated by a comma; one of the 4 functions and if necessary, a search parameter. \n (Although it will also execute the command help)
 Below is an example of how the file contents should look:
 
 	movie-this,"the princess bride"
