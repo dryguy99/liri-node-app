@@ -1,7 +1,7 @@
 # liri-node-app
 Language Interpetation and Recognition Interface (liri)
 
-This app is designed to run in Terminal on the mac or Git Bash on the pc.  It takes in command line arguments and performs 4 specific functions based on the arguments requested.
+This Node.js app is designed to run in Terminal on the mac or Bash on the pc.  It takes in command line arguments and performs 4 specific functions based on the arguments requested.
 
 The four functions are:
 
