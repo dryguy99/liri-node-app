@@ -1,6 +1,6 @@
 var twitk = require('./keys');
 var twit = require('twitter');
-
+//twitter api access key
 var client = new twit({
   consumer_key: twitk.twitterKeys.consumer_key,
   consumer_secret: twitk.twitterKeys.consumer_secret,
@@ -8,8 +8,9 @@ var client = new twit({
   access_token_secret: twitk.twitterKeys.access_token_secret
 });
 
-
+//search variables for twitter
 var params = {screen_name: '@tjdry', count:20};
+var searchField = 'statuses/user_timeline';
 
 const inquirer = require("inquirer"),
 
@@ -28,7 +29,7 @@ if (process.argv.length >= 4) {
 	//console.log("initial request: " + myRequest);
 }
 //--------------------------------------------------------------
-//write log.txt file
+//append to log.txt file
 function myAppend(temp) {
 	fs.appendFile("log.txt", temp, (err) => {
 	  	if (err) throw err;
@@ -38,9 +39,9 @@ function myAppend(temp) {
 //--------------------------------------------------------------
 // check which function to run and excute it
 function checkInput(){
-	tempInfo = initInput + ": ";
-	myAppend(tempInfo);
-	tempinfo = "";
+	tempInfo = initInput + ": "; //reset variable for log file
+	myAppend(tempInfo); //append to log file
+	tempinfo = ""; //reset variable for log file
 	switch (initInput) {
 		case "my-tweets": 
 			myTweets();
@@ -90,39 +91,42 @@ function checkInput(){
 			console.log("");
 	}
 }
+// run checkInput once
 checkInput();
 //--------------------------------------------------------------
 //function to handle twitter
 function myTweets() {
-	var tempInfo = "";
-	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+	var tempInfo = ""; //reset variable for log file
+	client.get(searchField, params, function(error, tweets, response) {
   		if (!error) {
-  			//console.log(tweets);
+  			// format results
   			for (i = 0; i < tweets.length; i++) {
-  				console.log("==========================================");
+  				console.log("\n==========================================");
   				console.log("");
   				console.log("Created: " + tweets[i].created_at);
     			console.log("Tweet " + (i+1) + " : " + tweets[i].text);
     			console.log("");
     			console.log("");
+    			// set log file data
     			tempInfo = tempInfo + "Created: " + tweets[i].created_at + ", Tweet" + (i+1) + ": " + tweets[i].text + "~ ";
     		}
   		} else { 
   			console.log(error);
   		}
-	  	myAppend(tempInfo);
+	  	myAppend(tempInfo); //append to log file
 	});
 }
 //--------------------------------------------------------------
 //function to handle spotify
 function mySpotify() {
-	var tempInfo = "";
+	var tempInfo = ""; //reset variable for log file
+	//search for the sign by ace of base is no song title is entered
 	if (myRequest === "") { myRequest = "The Sign Ace of Base"; }
 	spotify.search({ type: 'track', query: myRequest }, function(err, data) {
     	if ( err ) {
         	console.log('Error occurred: ' + err);
         	return;
-    	} else {
+    	} else { //format results
     		console.log("==========================================");
   			console.log("");
     		console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
@@ -132,26 +136,29 @@ function mySpotify() {
     		console.log("");
     		console.log("==========================================");
 			console.log("");
+			//set log file data
 			tempInfo = 	"Artist: " + data.tracks.items[0].album.artists[0].name +
 						" Song Title: " + data.tracks.items[0].name +
 						" Preview Link: " + data.tracks.items[0].preview_url +
 						" Album name: " + data.tracks.items[0].album.name + "~ ";
     	}
-    	myAppend(tempInfo);
+    	myAppend(tempInfo); //append to log file
 	});
 }
 //--------------------------------------------------------------
 // function to handle omdb
 function myOmdb () {
-	var tempInfo = "";
-	if (myRequest === "") { myRequest = "Mr Nobody"; }
+	var tempInfo = ""; //reset variable for log file
+	if (myRequest === "") { myRequest = "Mr Nobody"; } //search for Mr. Nobody is no title is entered
 	var myArray = myRequest.split(" ");
 	var mycomRequest = "";
 	var myrotRequest = myArray[0];
+	//format search request for api
 	for (i = 0; i < myArray.length-1; i++) {
 		mycomRequest = mycomRequest + myArray[i] + "+";
 	}
 	mycomRequest = mycomRequest + myArray[myArray.length-1];
+	//format rotten tomatoes url
 	if (myArray[0] == "the") {
 		myrotRequest = "";
 		for (i = 1; i < myArray.length-1; i++) {
@@ -171,7 +178,7 @@ function myOmdb () {
   		if (error) {
   			console.log('error:', error);// Print the error if one occurred 
 
-  		} else {
+  		} else { //format results
 	  		console.log("==========================================");
   			console.log("");
   			console.log("Movie title: " + JSON.parse(body).Title);
@@ -198,7 +205,7 @@ function myOmdb () {
 	  					" Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value +
 	  					" Rotten Tomatoes URL: https://www.rottentomatoes.com/m/" + myrotRequest + "~ ";
   		}
-  		myAppend(tempInfo);
+  		myAppend(tempInfo); //append to log file
 	});
 }
 //--------------------------------------------------------------
