@@ -51,4 +51,8 @@ Below is an example of how the file contents should look:
 
 	movie-this,"the princess bride"
 
+the do-what-it-says command should be entered:
+
+	node liri do-what-it-says
+	
 
