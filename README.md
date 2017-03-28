@@ -32,15 +32,15 @@ The request should be in this format:
 movie-this will search the OMDB api for movie information and the program will return the following information to the console after a successful search:
 
 	movie 	title
-			year
-			IMDB rating
-			country
-			language
-			plot
-			actors
-			website
-			rotten tomatoes rating
-			rotten tomatoes url
+		year
+		IMDB rating
+		country
+		language
+		plot
+		actors
+		website
+		rotten tomatoes rating
+		rotten tomatoes url
 
 Movie titles with more than one word must be delimited by quotations.  Requests for this function should be in the following format:
 
