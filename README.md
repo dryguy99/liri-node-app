@@ -1,5 +1,5 @@
 # liri-node-app
-language Interpetation and Recognition Interface
+Language Interpetation and Recognition Interface (liri)
 
 This app is designed to run in Terminal on the mac or Git Bash on the pc.  It takes in command line arguments and performs 4 specific functions based on the arguments requested.
 
