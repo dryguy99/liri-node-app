@@ -100,7 +100,7 @@ function myTweets() {
 	client.get(searchField, params, function(error, tweets, response) {
   		if (!error) {
   			// format results
-  			for (i = 0; i < tweets.length; i++) {
+  			for (i = tweets.length-1; i > -1; i--) {
   				console.log("\n==========================================");
   				console.log("");
   				console.log("Created: " + tweets[i].created_at);
